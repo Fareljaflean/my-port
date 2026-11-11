@@ -7,6 +7,22 @@ h1,h2,h3,h4,.logo,.btn,.marquee{font-family:"Space Grotesk",Inter,sans-serif}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1100px;margin:0 auto;padding:80px 24px 0}
 
+/* Intro splash */
+.splash-screen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;background:#050505;color:#fff;opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
+.splash-screen.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.splash-screen[hidden]{display:none}
+.splash-content{width:min(100%,520px);display:flex;flex-direction:column;align-items:center;text-align:center;animation:splash-arrive .7s cubic-bezier(.2,.8,.2,1) both}
+.splash-icons{display:flex;gap:14px;margin-bottom:24px}
+.splash-icons span{display:grid;width:44px;height:44px;place-items:center;border:1px solid #252525;border-radius:50%;background:#101010;color:#f5f5f5}
+.splash-icons svg{width:20px;height:20px}
+.splash-content h1{max-width:480px;margin:0;font-size:clamp(2rem,7vw,3.3rem);font-weight:700;line-height:1.13;letter-spacing:-.055em}
+.splash-caption{margin-top:16px;padding:7px 15px;border:1px solid #242424;border-radius:99px;background:#101010;color:#aaa;font-size:.72rem;font-weight:700;letter-spacing:.1em}
+.splash-progress{width:100px;height:2px;margin-top:30px;overflow:hidden;border-radius:2px;background:#292929}
+.splash-progress::after{display:block;width:45%;height:100%;border-radius:inherit;background:#fff;content:"";animation:splash-progress 1.2s ease-in-out infinite}
+@keyframes splash-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes splash-progress{from{transform:translateX(-110%)}to{transform:translateX(230%)}}
+body.splash-active{overflow:hidden}
+
 /* Nav */
 .nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
 .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem}
@@ -94,6 +110,10 @@ h2{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.03em;line-height:1.1;margin
 .reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.2,.8,.2,1)}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.track{animation:none}.reveal{opacity:1;transform:none;transition:none}}
+@media(prefers-reduced-motion:reduce){
+  .splash-content,.splash-progress::after{animation:none}
+  .splash-screen{transition:none}
+}
 
 /* Responsive */
 @media(max-width:800px){

@@ -1,4 +1,19 @@
 // ====== DATA — edit konten di sini ======
+const splashScreen = document.querySelector("#splash-screen");
+document.body.classList.add("splash-active");
+let splashDismissed = false;
+const dismissSplash = () => {
+  if (splashDismissed) return;
+  splashDismissed = true;
+  splashScreen.classList.add("is-hidden");
+  splashScreen.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("splash-active");
+  window.setTimeout(() => { splashScreen.hidden = true; }, 700);
+};
+const splashDelay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 250 : 1200;
+window.addEventListener("load", () => window.setTimeout(dismissSplash, splashDelay), { once: true });
+window.setTimeout(dismissSplash, 5000);
+
 const WA = "6285219426211";
 const data = {
   skills: [["HTML/CSS", 95], ["JavaScript", 90], ["React/Next.js", 85], ["Node.js", 80], ["PHP/Laravel", 75], ["Python", 70]],
@@ -64,6 +79,7 @@ const translations = {
     contactDescription: "Punya proyek atau ide? Hubungi saya, siap bantu wujudkan website dan aplikasi impianmu.", sendMessage: "Kirim Pesan →",
     footerDescription: "Berbasis di Ambon, Indonesia.", footerNavigation: "Navigasi", footerConnect: "Sosial",
     rightsReserved: "Hak cipta dilindungi.", backToTop: "Kembali ke atas ↑", homeLabel: "Kembali ke beranda", mainNavigation: "Navigasi utama",
+    splashTitle: "Selamat datang di portofolio saya", splashCaption: "FAREL JAFLEAN · AMBON, INDONESIA",
     title: "Farel Jaflean — Web & App Developer", description: "Portofolio Farel Jaflean, berbasis di Ambon, Indonesia.",
   },
   en: {
@@ -77,6 +93,7 @@ const translations = {
     contactDescription: "Have a project or an idea? Get in touch—I'm ready to help bring your dream website or app to life.", sendMessage: "Send Message →",
     footerDescription: "Based in Ambon, Indonesia.", footerNavigation: "Navigation", footerConnect: "Connect",
     rightsReserved: "All rights reserved.", backToTop: "Back to top ↑", homeLabel: "Back to home", mainNavigation: "Main navigation",
+    splashTitle: "Welcome to my Portfolio Website", splashCaption: "FAREL JAFLEAN · AMBON, INDONESIA",
     title: "Farel Jaflean — Web & App Developer", description: "Portfolio of Farel Jaflean, based in Ambon, Indonesia.",
   },
 };
