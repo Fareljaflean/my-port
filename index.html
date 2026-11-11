@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Farel Jaflean — Web & App Developer</title>
 <meta name="description" content="Portofolio Farel Jaflean, berbasis di Ambon, Indonesia.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,15 +45,21 @@
   <section class="hero">
     <!-- <div class="marquee big"><div class="track" data-text="PORTFOLIO ✦ "></div></div> -->
     <div class="wrap hero-grid">
-      <div class="photo"><img src="/assets/image.png" alt="Foto profil Farel Jaflean"></div>
-      <div>
+      <div class="hero-copy">
+        <p class="hero-kicker reveal" data-i18n="heroKicker">FAREL JAFLEAN · AMBON, INDONESIA</p>
+        <h1 class="hero-title reveal"><span data-i18n="heroTitleFirst">Selamat datang di</span><br><span class="hero-title-accent" data-i18n="heroTitleAccent">portofolio saya.</span></h1>
         <p class="lead reveal" data-i18n="heroLead">Saya suka membangun hal-hal yang hidup di internet. Saya menyelesaikan masalah dengan cara rasional dan pragmatis, lalu membuat solusi yang paling sederhana dan fungsional.</p>
+        <div class="hero-actions reveal">
+          <a class="btn" href="#projects" data-i18n="heroWorkCta">Lihat karya saya ↓</a>
+          <a class="btn btn-outline" href="#contact" data-i18n="heroContactCta">Hubungi sekarang ↗</a>
+        </div>
         <div class="socials reveal">
           <a href="https://github.com/Fareljaflean/" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.instagram.com/christianz_23_/" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="https://www.tiktok.com/@jusplen023" target="_blank" rel="noopener noreferrer">TikTok</a>
         </div>
       </div>
+      <div class="photo"><img src="/assets/image.png" alt="Foto profil Farel Jaflean"></div>
     </div>
     <div class="marquee"><div class="track" id="ticker"></div></div>
   </section>
@@ -149,7 +156,7 @@
     <span class="bottom-nav__icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
     </span>
-    <span data-i18n="navContact">Hubungi saya</span>
+    <span data-i18n="bottomContact">Kontak</span>
   </a>
 </nav>
 
