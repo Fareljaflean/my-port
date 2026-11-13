@@ -17,8 +17,9 @@ window.setTimeout(dismissSplash, 5000);
 const WA = "6285219426211";
 const data = {
   skills: [["HTML/CSS", 95], ["JavaScript", 90], ["React/Next.js", 85], ["Node.js", 80], ["PHP/Laravel", 75], ["Python", 70]],
-  // Temporary showcase cards for the carousel; replace these with actual project data later.
+  // Live projects link to their deployed application; the remaining cards are concepts.
   projects: [
+    { id: "nabungNih", year: "2026", color: "nabung-nih", url: "https://nabung-nih.vercel.app/login", tags: ["Next.js App Router", "TypeScript", "Tailwind CSS", "Server Actions", "Route Handlers", "PostgreSQL", "Prisma 7", "Auth.js Credentials", "JWT sessions"] },
     { id: "portfolio", year: "2026", color: "portfolio", tags: ["HTML", "CSS", "JavaScript"] },
     { id: "mobile", year: "2026", color: "mobile", tags: ["Mobile App", "UI/UX", "Prototype"] },
     { id: "dashboard", year: "2026", color: "dashboard", tags: ["Dashboard", "Web App", "UI/UX"] },
@@ -48,6 +49,7 @@ const localizedContent = {
       ["Fitur e-commerce lengkap dan desainnya premium. Omzet naik setelah pakai website baru.", "Dian R.", "Owner, FashionBrand"],
     ],
     projects: {
+      nabungNih: { category: "Aplikasi Keuangan", title: "NabungNih", description: "Aplikasi tabungan dan kas untuk mencatat pemasukan serta pengeluaran, melihat ringkasan saldo, dan memantau target tabungan.", visual: "NabungNih" },
       portfolio: { category: "Konsep Website", title: "Portfolio UI", description: "Eksplorasi konsep portofolio personal dengan tata letak modern dan responsif.", visual: "WEB" },
       mobile: { category: "Konsep Aplikasi Mobile", title: "Mobile App Concept", description: "Eksplorasi antarmuka aplikasi mobile dengan fokus pada pengalaman pengguna.", visual: "APP" },
       dashboard: { category: "Konsep Web App", title: "Dashboard UI", description: "Eksplorasi dashboard analitik dengan visualisasi data dan navigasi sederhana.", visual: "DATA" },
@@ -55,8 +57,8 @@ const localizedContent = {
       creative: { category: "Konsep Website Kreatif", title: "Creative Studio", description: "Eksplorasi landing page studio kreatif dengan komposisi tebal dan gerakan visual.", visual: "PLAY" },
     },
     popular: "⭐ Paling Populer", perProject: "/ proyek", selectPlan: "Pilih Paket →", emptyProjects: "Proyek akan ditambahkan.",
-    demoLabel: "KONSEP DEMO · BUKAN PROYEK ASLI", openDemo: "Konsep demo", previousProject: "Proyek sebelumnya", nextProject: "Proyek berikutnya",
-    demoNote: "damn gk bro?.",
+    demoLabel: "KONSEP DEMO · BUKAN PROYEK ASLI", liveLabel: "PROYEK LIVE", openDemo: "Konsep demo", openProject: "Buka website", previousProject: "Proyek sebelumnya", nextProject: "Proyek berikutnya",
+    demoNote: "Kartu konsep ditandai sebagai demo; proyek live memiliki tautan ke aplikasi.",
     inquiry: "Halo, saya tertarik dengan paket ",
   },
   en: {
@@ -80,6 +82,7 @@ const localizedContent = {
       ["Complete e-commerce features and premium design. Sales increased after launching the new website.", "Dian R.", "Owner, FashionBrand"],
     ],
     projects: {
+      nabungNih: { category: "Finance App", title: "NabungNih", description: "A savings and cash-tracking app to record income and expenses, review your balance, and track savings goals.", visual: "NabungNih" },
       portfolio: { category: "Website Concept", title: "Portfolio UI", description: "A personal portfolio concept with a modern, responsive layout.", visual: "WEB" },
       mobile: { category: "Mobile App Concept", title: "Mobile App Concept", description: "A mobile app interface concept focused on user experience.", visual: "APP" },
       dashboard: { category: "Web App Concept", title: "Dashboard UI", description: "An analytics dashboard concept with data visualization and simple navigation.", visual: "DATA" },
@@ -87,8 +90,8 @@ const localizedContent = {
       creative: { category: "Creative Website Concept", title: "Creative Studio", description: "A creative studio landing page concept with bold composition and visual motion.", visual: "PLAY" },
     },
     popular: "⭐ Most Popular", perProject: "/ project", selectPlan: "Choose Plan →", emptyProjects: "Projects will be added soon.",
-    demoLabel: "DEMO CONCEPT · NOT A REAL PROJECT", openDemo: "Demo concept", previousProject: "Previous project", nextProject: "Next project",
-    demoNote: "These cards are visual examples, not real portfolio projects.",
+    demoLabel: "DEMO CONCEPT · NOT A REAL PROJECT", liveLabel: "LIVE PROJECT", openDemo: "Demo concept", openProject: "Visit website", previousProject: "Previous project", nextProject: "Next project",
+    demoNote: "Concept cards are marked as demos; live projects link to their applications.",
     inquiry: "Hello, I'm interested in the ",
   },
 };
@@ -155,6 +158,8 @@ const updateProjectCoverflow = () => {
     const position = offset === 0 ? "active" : offset === 1 ? "next" : offset === cards.length - 1 ? "previous" : "hidden";
     card.dataset.position = position;
     card.setAttribute("aria-hidden", position === "hidden" ? "true" : "false");
+    const projectLink = card.querySelector(".project-card__open[href]");
+    if (projectLink) projectLink.tabIndex = position === "active" ? 0 : -1;
   });
   const counter = projectCarousel.querySelector(".project-carousel__count");
   counter.textContent = `${String(activeProjectIndex + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
@@ -199,15 +204,17 @@ const renderLanguage = (language) => {
      <a class="btn sm" href="${wa(content.inquiry + plan.name)}" target="_blank" rel="noopener">${content.selectPlan}</a></article>`).join("");
   projectCarousel.classList.toggle("project-carousel", data.projects.length > 0);
   projectCarousel.innerHTML = data.projects.length ? `
-    <div class="project-carousel__stage" aria-label="${language === "id" ? "Carousel proyek demo" : "Demo project carousel"}">
+    <div class="project-carousel__stage" aria-label="${language === "id" ? "Carousel proyek" : "Project carousel"}">
       ${data.projects.map((project, index) => {
         const details = content.projects[project.id];
-        return `<article class="project-card" data-index="${index}" data-position="hidden" aria-hidden="true">
+        return `<article class="project-card${project.url ? " project-card--live" : ""}" data-index="${index}" data-position="hidden" aria-hidden="true">
           <div class="project-card__visual project-card__visual--${project.color}">
-            <span class="project-card__demo">${content.demoLabel}</span>
+            <span class="project-card__demo">${project.url ? content.liveLabel : content.demoLabel}</span>
             <span class="project-card__visual-title">${details.visual}</span>
             <span class="project-card__visual-mark" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
-            <span class="project-card__open">${content.openDemo} <span aria-hidden="true">↗</span></span>
+            ${project.url
+              ? `<a class="project-card__open" href="${project.url}" target="_blank" rel="noopener noreferrer" aria-label="${content.openProject}: ${details.title}">${content.openProject} <span aria-hidden="true">↗</span></a>`
+              : `<span class="project-card__open">${content.openDemo} <span aria-hidden="true">↗</span></span>`}
           </div>
           <div class="project-card__meta"><span class="tag">${details.category}</span><span>${project.year}</span></div>
           <h3>${details.title}</h3>
